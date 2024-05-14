@@ -10,11 +10,11 @@ def print_nginx_stats():
     nginx = db.nginx
     results = f"""{nginx.count_documents({})} logs
 Methods:
-    method GET: {nginx.count_documents({"method": "GET"})}
-    method POST: {nginx.count_documents({"method": "POST"})}
-    method PUT: {nginx.count_documents({"method": "PUT"})}
-    method PATCH: {nginx.count_documents({"method": "PATCH"})}
-    method DELETE: {nginx.count_documents({"method": "DELETE"})}
+\tmethod GET: {nginx.count_documents({"method": "GET"})}
+\tmethod POST: {nginx.count_documents({"method": "POST"})}
+\tmethod PUT: {nginx.count_documents({"method": "PUT"})}
+\tmethod PATCH: {nginx.count_documents({"method": "PATCH"})}
+\tmethod DELETE: {nginx.count_documents({"method": "DELETE"})}
 {nginx.count_documents({"path": "/status"})} status check
 """
     print(results, end="")
