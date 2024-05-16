@@ -29,7 +29,9 @@ class Cache:
             fn: Optional[Callable]) -> Union[str, bytes, int]:
         """Retrieve a value from Redis using key and convert data back"""
         value = self._redis.get(key)
-        return fn(value) if fn and value is not None else value
+        if not value:
+            return value
+        return fn(value) if fn is not None else value
 
     def get_str(self, key: str) -> str:
         """convert data back to string"""
