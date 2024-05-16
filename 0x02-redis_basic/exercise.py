@@ -26,7 +26,7 @@ class Cache:
         return key
 
     def get(self, key: str,
-            fn: Optional[Callable]) -> Union[str, bytes, int]:
+            fn: Optional[Callable] = None) -> Union[str, bytes, int]:
         """Retrieve a value from Redis using key and convert data back"""
         value = self._redis.get(key)
         if not value:
