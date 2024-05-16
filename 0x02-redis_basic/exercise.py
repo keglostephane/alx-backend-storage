@@ -3,7 +3,7 @@
 """
 import redis
 import uuid
-from typing import Union, Callable, Optional
+from typing import Union, Callable, Optional, NoReturn
 from functools import wraps
 
 
@@ -38,6 +38,19 @@ def call_history(method: Callable) -> Callable:
     return wrapper
 
 
+def replay(method: Callable) -> NoReturn:
+    """display the history of calls of a particular function"""
+    self = method.__self__
+    fname = method.__qualname__
+    input_list = self._redis.lrange("{}:inputs".format(fname), 0, -1)
+    output_list = self._redis.lrange("{}:outputs".format(fname), 0, -1)
+
+    print(f"{fname} was called {len(input_list)} times:")
+
+    for arg, value in zip(input_list, output_list):
+        print(f"{fname}(*{arg.decode('utf-8')}) -> {value.decode('utf-8')}")
+
+
 class Cache:
     """Implements a Cache using Redis."""
 
@@ -45,7 +58,6 @@ class Cache:
         """create a Redis instance."""
         self._redis = redis.Redis()
         self._redis.flushdb()
-
 
     @call_history
     def store(self, data: Union[str, bytes, int, float]) -> str:
