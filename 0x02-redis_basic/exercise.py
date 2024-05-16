@@ -26,12 +26,12 @@ class Cache:
         return key
 
     def get(self, key: str,
-            fn: Optional[Callable]) -> Union[str, bytes, int, None]:
+            fn: Optional[Callable]) -> Union[str, bytes, int]:
         """Retrieve a value from Redis using key and convert data back"""
         value = self._redis.get(key)
 
         if value is None:
-            return None
+            return "(nil)"
         if fn is None:
             return value
         return fn(value)
