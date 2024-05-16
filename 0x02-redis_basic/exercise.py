@@ -30,18 +30,18 @@ class Cache:
         """Retrieve a value from Redis using key and convert data back"""
         value = self._redis.get(key)
 
-        if value is None:
-            return "(nil)"
-        if fn is None:
-            return value
-        return fn(value)
+        if fn:
+            return fn(value)
+        return value
 
-    def get_str(self, value: str) -> str:
+    def get_str(self, key: str) -> str:
         """convert data back to string"""
+        value = self._redis.get(key)
         if type(value) is str:
             return value.decode("utf-8")
 
-    def get_int(self, value: str) -> int:
+    def get_int(self, key: str) -> int:
         """convert data back to number"""
+        value = self._redis.get(key)
         if type(value) is int or float:
             return int(value)
