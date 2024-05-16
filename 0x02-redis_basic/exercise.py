@@ -29,19 +29,12 @@ class Cache:
             fn: Optional[Callable]) -> Union[str, bytes, int]:
         """Retrieve a value from Redis using key and convert data back"""
         value = self._redis.get(key)
-
-        if fn:
-            return fn(value)
-        return value
+        return fn(value) if fn and value else value
 
     def get_str(self, key: str) -> str:
         """convert data back to string"""
-        value = self._redis.get(key)
-        if type(value) is str:
-            return value.decode("utf-8")
+        return self.get(key, fn=lambda s: s.decode('utf-8'))
 
     def get_int(self, key: str) -> int:
         """convert data back to number"""
-        value = self._redis.get(key)
-        if type(value) is int or float:
-            return int(value)
+        return self.get(key, fn=int)
