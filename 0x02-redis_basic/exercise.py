@@ -14,7 +14,8 @@ def count_calls(method: Callable) -> Callable:
     @wraps(method)
     def wrapper(self, *args, **kwargs):
         """count the number of calls of wrapped function"""
-        return self._redis.incr(key)
+        self._redis.incr(key)
+        return method(self, *args, **kwargs)
     return wrapper
 
 
@@ -59,6 +60,7 @@ class Cache:
         self._redis = redis.Redis()
         self._redis.flushdb()
 
+    @count_calls
     @call_history
     def store(self, data: Union[str, bytes, int, float]) -> str:
         """Generates a random key, store input data in Redis using
