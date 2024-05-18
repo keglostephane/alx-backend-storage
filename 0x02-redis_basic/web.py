@@ -41,9 +41,4 @@ def get_page(url: str) -> str:
 
 if __name__ == "__main__":
     url = "http://slowwly.robertomurray.co.uk"
-    count_key = "count:{}".format(url)
-
     get_page(url)
-
-    print("{} has been called {} times".format(
-        get_page.__qualname__, conn.get(count_key)))
