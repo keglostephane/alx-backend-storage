@@ -21,6 +21,7 @@ def count_calls(func: Callable) -> Callable:
         cache_value = conn.get(cache_key)
 
         if cache_value:
+            conn.inc(count_key)
             return cache_value.decode('utf-8')
 
         resp = func(url)
