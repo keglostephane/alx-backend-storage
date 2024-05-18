@@ -19,14 +19,14 @@ def count_calls(func: Callable) -> Callable:
         count_key = f"count:{url}"
         ttl = 10
         cache_value = conn.get(cache_key)
+        conn.incr(count_key)
 
         if cache_value:
-            conn.inc(count_key)
             return cache_value.decode('utf-8')
 
         resp = func(url)
         conn.set(cache_key, resp, ex=ttl)
-        conn.incr(count_key)
+        conn.expire(cache_key, ttl)
 
         return resp
 
