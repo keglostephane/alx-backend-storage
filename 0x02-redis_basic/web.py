@@ -10,7 +10,7 @@ from typing import Callable
 conn = redis.Redis()
 
 
-def count_calls(func: Callable) -> Callable:
+def count_call(func: Callable) -> Callable:
     """a decorator that count the number of call of a function"""
     @wraps(func)
     def wrapper(url):
@@ -32,7 +32,7 @@ def count_calls(func: Callable) -> Callable:
     return wrapper
 
 
-@count_calls
+@count_call
 def get_page(url: str) -> str:
     """get html content from a url"""
     resp = requests.get(url)
