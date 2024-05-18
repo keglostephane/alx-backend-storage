@@ -42,5 +42,9 @@ def print_top_ips(nginx):
 
 
 if __name__ == "__main__":
-    print_nginx_stats()
-    print_top_ips()
+    client = MongoClient()
+    db = client.logs
+    nginx = db.nginx
+
+    print_nginx_stats(nginx)
+    print_top_ips(nginx)
