@@ -36,6 +36,7 @@ def print_top_ips(nginx):
         {'$limit': 10},
     ])
 
+    print("IPs:")
     for ip in top_ips:
         print("\t{}: {}".format(ip['_id'], ip['totalRequests']))
 
